@@ -31,6 +31,8 @@ import com.jianla.shiro.util.SerializableUtils;
  * 如果使用如Redis之类的有自动过期策略的DB，完全可以不用实现SessionValidationScheduler，直接借助于这些DB的过期策略即可。
  * 具体配置见《第十章》
  * 
+ * 在spring-config-shiro中配置给会话管理器sessionManager
+ * 
  * @author dimhat
  * @date 2015年12月3日 下午3:28:28
  * @version 1.0

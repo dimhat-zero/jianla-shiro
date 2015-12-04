@@ -53,6 +53,7 @@ public class UserRealm extends AuthorizingRealm {
 	}
 
 	/** 
+	 * 提供认证信息
 	 * @see org.apache.shiro.realm.AuthenticatingRealm#doGetAuthenticationInfo(org.apache.shiro.authc.AuthenticationToken)
 	 */
 	@Override

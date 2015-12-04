@@ -19,6 +19,8 @@ import com.jianla.shiro.util.SerializableUtils;
  * session存储在mysql中，提供给shiro中操作session的接口
  * 依赖jdbcTemplate，事务
  * 
+ * 在spring-config-shiro中配置给会话管理器sessionManager
+ * 
  * @author dimhat
  * @date 2015年12月3日 下午3:10:36
  * @version 1.0

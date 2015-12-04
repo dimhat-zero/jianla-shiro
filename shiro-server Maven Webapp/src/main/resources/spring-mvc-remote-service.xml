@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 配置了一个bean -->
+    <bean id="remoteService" class="com.jianla.shiro.remote.RemoteService"/>
+
+	<!-- 把上面的bean通过HttpInvoker提供给远程的spring应用调用 -->
+    <bean name="/remoteService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="remoteService"/>
+        <property name="serviceInterface" value="com.jianla.shiro.remote.RemoteServiceInterface"/>
+    </bean>
+</beans>
