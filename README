@@ -1,0 +1,65 @@
+多项目权限系统
+
+[shiro-pom项目]
+类型：pom
+概述：整个项目只有一个pom.xml文件
+功能：主要是提供依赖，是其他项目的parent
+
+[shiro-core项目]
+类型：jar
+概述：简单的remote接口和model类
+功能：提供server和client都会用到的模型和接口
+
+[shiro-server项目]
+类型：war
+概述：连接数据库，实现权限系统的核心功能并实现remote接口
+功能：实现各个模型的CURD功能及页面（dao、service、controller）
+	  remote提供操作session功能和获取角色权限功能（session是持久化在数据库中的）
+
+[shiro-client项目]
+类型：jar
+概述：使用shiro的核心类增强和配置
+功能：提供给其他app使用shiro的权限服务
+      配置了securityManager方便其他应用使用
+
+[shiro-app1项目]
+类型：war
+概述：app使用shiro的示例
+功能：使用了shiro的权限控制
+      配置中引入了client中配置的securityManager
+	  
+[shiro-app1项目]
+类型：war
+概述：app使用shiro的示例
+功能：使用了shiro的权限控制
+      配置中引入了client中配置的securityManager
+
+
+[nginx]
+nginx配置核心代码
+server {  
+    listen 80;  
+    server_name  localhost;  
+    charset utf-8;  
+    location ~ ^/(shiro-server)/ {  
+        proxy_pass http://127.0.0.1:8080;   
+        index /;  
+            proxy_set_header Host $host;  
+    }  
+    location ~ ^/(shiro-app1)/ {  
+        proxy_pass http://127.0.0.1:9080;   
+        index /;  
+            proxy_set_header Host $host;  
+    }  
+    location ~ ^/(shiro-app2)/ {  
+        proxy_pass http://127.0.0.1:10080;   
+        index /;  
+            proxy_set_header Host $host;  
+    }  
+} 
+
+[测试]
+非war项目要mvn install
+而war项目要mvn jetty:run  
+访问http://localhost/shiro-app1/会去server验证
+如果未登陆则去http://localhost/shiro-server/login登陆
