@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * TODO
+ * 登录控制器
+ * 只处理了get请求
+ * 
  * @author dimhat
  * @date 2015年12月4日 下午1:48:05
  * @version 1.0

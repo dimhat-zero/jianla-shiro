@@ -1,0 +1,69 @@
+【web.xml】
+1.引入了spring-config.xml配置文件
+2.配置了shiro过滤器 
+3.配置了spring-mvc的servlet（spring-mvc.xml）
+
+
+
+【spring-config.xml】
+1.引入了resources.properties资源文件
+2.扫描了dao和service层的注解
+3.配置了dataSource阿里巴巴数据源
+4.配置了jdbcTemplate用于spring操作数据库
+5.配置了transactionManager事务管理器
+6.配置了aop切入service层对事务进行管理
+7.引入了spring-config-shiro.xml配置文件
+
+
+
+【spring-config-shiro.xml】
+1.配置了credentialsMatcher的bean
+	实现了密码错误的策略
+	
+2.配置了userRealm的bean
+	引用了credentialsMatcher的bean
+	实现了认证方法返回用户数据
+	实现了授权方法填充角色和权限数据
+
+3.配置了sessionDAO的bean
+	实现了对session的CURD功能
+
+4.配置了sessionManager的bean
+	引用了sessionDAO的bean
+	配置了其他session属性
+
+5.配置了securityManager的bean
+	引用了userRealm的bean
+	引用了sessionManager的bean
+	
+6.配置了formAuthenticationFilter的bean
+	用于认证登录，处理authc的拦截器
+	重载了登录成功后的重定向（authc.fallbackUrl）
+	
+7.配置了sysUserFilter的bean
+	实现了请求参数user的填充（类似sessionInfo）
+
+3.配置了shiroFilter的bean
+	引用了securityManager的bean
+	引用了formAuthenticationFilter的bean给拦截器authc
+	引用了sysUserFilter的bean给拦截器sysUser
+	配置了filterChainDefinitions，路径=拦截器
+	
+
+
+【spring-mvc.xml】
+1.扫描了controller层注解
+2.给mvc:argument-resolvers实现了user方法参数的自动注入
+3.配置了静态资源映射
+4.配置了默认视图解析器
+5.配置了默认异常处理的bean，实现类是DefaultExceptionHandler
+6.引入了spring-mvc-shiro.xml
+7.引入了spring-mvc-remote-service.xml
+
+
+【spring-mvc-shiro.xml】
+1.配置了bean，引用了securityManager
+
+【spring-mvc-remote-service.xml】
+1.配置了remoteService的bean
+2.配置了远程调用的bean，路径是/remoteService（HttpInvoker类似RMI）
