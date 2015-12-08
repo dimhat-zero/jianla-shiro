@@ -1,93 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:resources.properties"/>
+	<context:property-placeholder location="classpath:resources.properties" />
 
-    <!-- 扫描注解Bean  com.jianla.shiro有异常 -->
-    <context:component-scan base-package="com.jianla.shiro.service,com.jianla.shiro.dao">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+	<!-- 扫描注解Bean com.jianla.shiro有异常 -->
+	<context:component-scan base-package="com.jianla.shiro.service,com.jianla.shiro.dao">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
-    <!-- 开启AOP监听 只对当前配置文件有效 -->
-    <aop:aspectj-autoproxy expose-proxy="true"/>
+	<!-- 开启AOP监听 只对当前配置文件有效 -->
+	<aop:aspectj-autoproxy expose-proxy="true" />
 
 
-    <!-- 配置druid数据源 -->
-    <!--see https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_DruidDataSource%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE-->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <!-- 基本属性 url、user、password -->
-        <property name="url" value="${connection.url}"/>
-        <property name="username" value="${connection.username}"/>
-        <property name="password" value="${connection.password}"/>
+	<!-- 配置druid数据源 -->
+	<!--see https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_DruidDataSource%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${connection.url}" />
+		<property name="username" value="${connection.username}" />
+		<property name="password" value="${connection.password}" />
 
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${druid.initialSize}"/>
-        <property name="minIdle" value="${druid.minIdle}"/>
-        <property name="maxActive" value="${druid.maxActive}"/>
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${druid.initialSize}" />
+		<property name="minIdle" value="${druid.minIdle}" />
+		<property name="maxActive" value="${druid.maxActive}" />
 
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="${druid.maxWait}"/>
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${druid.maxWait}" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
 
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
 
-        <property name="validationQuery" value="${druid.validationQuery}" />
-        <property name="testWhileIdle" value="${druid.testWhileIdle}" />
-        <property name="testOnBorrow" value="${druid.testOnBorrow}" />
-        <property name="testOnReturn" value="${druid.testOnReturn}" />
+		<property name="validationQuery" value="${druid.validationQuery}" />
+		<property name="testWhileIdle" value="${druid.testWhileIdle}" />
+		<property name="testOnBorrow" value="${druid.testOnBorrow}" />
+		<property name="testOnReturn" value="${druid.testOnReturn}" />
 
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小  如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。-->
-        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
+		<property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
 
-        <!-- 配置监控统计拦截的filters -->
-        <property name="filters" value="${druid.filters}" />
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="${druid.filters}" />
 
-    </bean>
+	</bean>
 
 	<!-- 数据源代理，通过spring操作数据库，配置jdbcTemplate -->
-    <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
-        <property name="targetDataSource" ref="dataSource"/>
-    </bean>
-	
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <constructor-arg ref="dataSourceProxy"/>
-    </bean>
+	<bean id="dataSourceProxy"
+		class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+		<property name="targetDataSource" ref="dataSource" />
+	</bean>
 
-    <!--事务管理器配置-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSourceProxy"/>
-    </bean>
-	<!-- 配置事务策略
-		propagation="REQUIRED"  表示name的那个方法必须要在一个事务的环境中运行。
-		read-only="true"  表示只读事务，就是不涉及到数据的修改，只是查询，这是对事务的优化。
-	 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSourceProxy" />
+	</bean>
 
-    <aop:config expose-proxy="true" proxy-target-class="true">
-        <!-- 只对业务逻辑层实施事务 -->
-        <aop:pointcut id="txPointcut" expression="execution(* com.jianla.shiro..service..*+.*(..))"/>
-        <aop:advisor id="txAdvisor" advice-ref="txAdvice" pointcut-ref="txPointcut"/>
-    </aop:config>
+	<!--事务管理器配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceProxy" />
+	</bean>
+	<!-- 配置事务策略 propagation="REQUIRED" 表示name的那个方法必须要在一个事务的环境中运行。 read-only="true" 
+		表示只读事务，就是不涉及到数据的修改，只是查询，这是对事务的优化。 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
 
-    <bean class="com.jianla.shiro.util.SpringUtils"/>
+	<aop:config expose-proxy="true" proxy-target-class="true">
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut id="txPointcut"
+			expression="execution(* com.jianla.shiro..service..*+.*(..))" />
+		<aop:advisor id="txAdvisor" advice-ref="txAdvice"
+			pointcut-ref="txPointcut" />
+	</aop:config>
 
-	<!-- 配置redis -->
+	<bean id="springUtils" class="com.jianla.shiro.util.SpringUtils" />
+
+	<!-- 配置redis开始 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<!-- jedis最大保存idel状态对象数 -->
 		<property name="maxIdle" value="${redis.maxWait}" />
@@ -95,13 +98,13 @@
 		<property name="maxWaitMillis" value="${redis.maxWait}" />
 		<!-- 最大等待时间：单位ms -->
 		<property name="maxTotal" value="${redis.maxActive}" />
-		<!-- 返回连接时，检测连接是否成功  -->
+		<!-- 返回连接时，检测连接是否成功 -->
 		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
 	</bean>
 
 	<bean id="connectionFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		
+
 		<property name="hostName" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
 		<property name="password" value="${redis.pass}" />
@@ -111,7 +114,28 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
 	</bean>
-	<!-- 配置redis -->
+	<!-- 配置redis结束 -->
 
-    <import resource="classpath:spring-config-shiro.xml"/>
+	<!-- druid spring 监控 方法名正则拦截 -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.jianla.shiro.service.*</value>
+				<value>com.jianla.shiro.dao.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+
+	<!-- 导入spring-config-shiro的配置 -->
+	<import resource="classpath:spring-config-shiro.xml" />
 </beans>

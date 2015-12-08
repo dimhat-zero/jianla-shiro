@@ -33,10 +33,10 @@
 
 	<!-- 会话Cookie模板 maxAge=-1表示浏览器关闭时失效此Cookie -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<constructor-arg value="sid" />
+		<constructor-arg value="${session.name}" /><!-- session的name 原来是sid-->
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="-1" />
-		<property name="domain" value="" />
+		<property name="domain" value="${session.domain}" />
 		<property name="path" value="/" />
 	</bean>
 
@@ -67,7 +67,8 @@
 	<bean id="sessionDAO" class="com.jianla.shiro.session.dao.RedisSessionDAO">
 		<property name="activeSessionsCacheName" value="shiro-activeSessionCache" />
 		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
-		<property name="liveTime" value="3600" />
+		<!-- session存活时间，tomcat默认18000即5小时 -->
+		<property name="liveTime" value="${session.liveTime}" />
 	</bean>
 
 	<!-- 会话验证调度器
@@ -81,7 +82,8 @@
 	<!-- 会话管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="globalSessionTimeout" value="1800000" />
+		<!-- 默认超时时间1800000就是30分钟 -->
+		<property name="globalSessionTimeout" value="${session.timeout}" />
 		<property name="deleteInvalidSessions" value="true" />
 		<property name="sessionValidationSchedulerEnabled" value="true" />
 		<!--
