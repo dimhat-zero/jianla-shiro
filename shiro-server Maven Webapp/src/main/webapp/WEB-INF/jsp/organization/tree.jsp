@@ -18,8 +18,8 @@
                     enable: true
                 }
             },
-            callback : {
-                onClick : function(event, treeId, treeNode) {
+            callback : {//处理回调函数
+                onClick : function(event, treeId, treeNode) {//iframe的父页面的另一个iframe的链接
                     parent.frames['content'].location.href = "${pageContext.request.contextPath}/organization/"+treeNode.id+"/maintain";
                 }
             }
@@ -31,7 +31,7 @@
             </c:forEach>
         ];
 
-        $(document).ready(function(){
+        $(document).ready(function(){//所有的数据放在zNodes中，有id和pid会自动处理
             $.fn.zTree.init($("#tree"), setting, zNodes);
         });
     });
